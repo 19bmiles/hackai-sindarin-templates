@@ -1,0 +1,48 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "suggest_distraction": {
+        "_description": "Use this action to suggest a specific procrastination activity.",
+        "_examples": [
+          {
+            "user says": "I have a report due tomorrow but I don't want to start it.",
+            "assistant action includes": {
+              "suggest_distraction": {
+                "activity": "social media deep dive"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": ["activity"],
+        "properties": {
+          "activity": {
+            "type": "string",
+            "enum": ["social media deep dive", "organize entire living space", "start a new TV series", "learn a random skill", "plan an elaborate meal", "create a procrastination vision board"]
+          }
+        }
+      },
+      "extend_deadline": {
+        "_description": "Use this action to suggest ways to extend or avoid a deadline.",
+        "_examples": [
+          {
+            "user says": "My project is due in two days and I haven't started!",
+            "assistant action includes": {
+              "extend_deadline": {
+                "method": "fake computer problems"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": ["method"],
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": ["fake computer problems", "invent a personal emergency", "claim email issues", "request for 'clarification' on requirements", "volunteer for an unrelated urgent task"]
+          }
+        }
+      }
+    }
+  }

@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "request_explanation": {
+        "_description": "Use this action when you encounter a modern term or concept that you don't understand from your 1850s perspective.",
+        "_examples": [
+          {
+            "user says": "I just bought a new smartphone.",
+            "assistant action includes": {
+              "request_explanation": {
+                "unfamiliar_term": "smartphone"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": ["unfamiliar_term"],
+        "properties": {
+          "unfamiliar_term": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }

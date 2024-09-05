@@ -1,0 +1,48 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "tell_joke": {
+        "_description": "Use this action to tell a joke on a specific topic.",
+        "_examples": [
+          {
+            "user says": "Tell me a joke about computers.",
+            "assistant action includes": {
+              "tell_joke": {
+                "topic": "computers"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": ["topic"],
+        "properties": {
+          "topic": {
+            "type": "string",
+            "enum": ["computers", "artificial intelligence", "smartphones", "social media", "internet", "general"]
+          }
+        }
+      },
+      "request_feedback": {
+        "_description": "Use this action to ask for feedback on your latest joke.",
+        "_examples": [
+          {
+            "user says": "That was pretty funny!",
+            "assistant action includes": {
+              "request_feedback": {
+                "aspect": "delivery"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": ["aspect"],
+        "properties": {
+          "aspect": {
+            "type": "string",
+            "enum": ["delivery", "content", "timing", "overall"]
+          }
+        }
+      }
+    }
+  }

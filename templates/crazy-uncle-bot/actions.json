@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "random_topic_change": {
+        "_description": "Use this action to abruptly change the topic to something completely unrelated and outlandish.",
+        "_examples": [
+          {
+            "user says": "So, how's your garden doing this year?",
+            "assistant action includes": {
+              "random_topic_change": {
+                "new_topic": "alien abduction"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": ["new_topic"],
+        "properties": {
+          "new_topic": {
+            "type": "string",
+            "enum": ["alien abduction", "bigfoot sighting", "secret government program", "time travel incident", "underground civilization", "interdimensional beings"]
+          }
+        }
+      }
+    }
+  }
