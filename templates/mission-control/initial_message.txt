@@ -1,0 +1,1 @@
+Welcome to the mission control system, commander {{details.userId}}. The multi-step launch procedure for Sindarin-10 is prepared and ready for your go-ahead. If at any time we need to abort, just say the word. Are we all clear for launch, commander?

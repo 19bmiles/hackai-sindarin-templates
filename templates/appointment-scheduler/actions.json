@@ -1,0 +1,233 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "check_availability": {
+        "_action_type": "webhook",
+        "_boosting": {
+          "force": {
+            "threshold": 0.95,
+            "thought": "You MUST use the check_availability action here."
+          },
+          "encourage": {
+            "threshold": 0.85,
+            "thought": "You may want to use the check_availability action here."
+          }
+        },
+        "_webhook_constants": {
+          "url": "http://0.0.0.0:3000/examples/scheduler/availability",
+          "method": "POST",
+          "_response_assignments": {
+            "state": [
+              {
+                "stateKey": "recent_calendar_availability",
+                "responsePath": "availabilitySynopsis"
+              }
+            ]
+          }
+        },
+        "_description": "When the user asks you for availability. YOU SHOULD ALWAYS USE THIS ACTION IF THE USER ASKS YOU ANYTHING RELATED TO CALENDAR AVAILABILITY.",
+        "_examples": [
+          {
+            "user says": "Do you have any openings available in the next week?",
+            "assistant action includes": {
+              "check_availability": {
+                "timeframe": "this_week"
+              }
+            }
+          },
+          {
+            "user says": "Do you have any openings available next week?",
+            "assistant action includes": {
+              "check_availability": {
+                "timeframe": "next_week"
+              }
+            }
+          },
+          {
+            "user says": "What's your availability for tomorrow?",
+            "assistant action includes": {
+              "check_availability": {
+                "timeframe": "tomorrow"
+              }
+            }
+          },
+          {
+            "user says": "Can you check if there are any slots open on July 20th?",
+            "assistant action includes": {
+              "check_availability": {
+                "date": "2023-07-20T05:00:00.000Z"
+              }
+            }
+          },
+          {
+            "user says": "What else is available?",
+            "assistant action includes": {
+              "check_availability": {
+                "range": "2023-03-10T05:00:00.000Z-2023-03-15T05:00:00.000Z",
+                "page": "2"
+              }
+            }
+          },
+          {
+            "user says": "What's available on Tuesday?",
+            "assistant action includes": {
+              "check_availability": {
+                "range": "2025-01-05T05:00:00.000Z"
+              }
+            }
+          },
+          {
+            "user says": "Show me available times for this month",
+            "assistant action includes": {
+              "check_availability": {
+                "timeframe": "this_month"
+              }
+            }
+          },
+          {
+            "user says": "What's available next month?",
+            "assistant action includes": {
+              "check_availability": {
+                "timeframe": "next_month"
+              }
+            }
+          },
+          {
+            "user says": "What's your availability between July 17th and July 23rd?",
+            "assistant action includes": {
+              "check_availability": {
+                "range": "2023-07-17T05:00:00.000Z,2023-07-23T05:00:00.000Z"
+              }
+            }
+          },
+          {
+            "user says": "Can you show me more available times for next week?",
+            "assistant action includes": {
+              "check_availability": {
+                "timeframe": "next_week",
+                "page": "2"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "timeframe": {
+            "type": "string",
+            "enum": [
+              "today",
+              "tomorrow",
+              "this_week",
+              "next_week",
+              "this_month",
+              "next_month"
+            ],
+            "description": "The timeframe for which to check availability"
+          },
+          "date": {
+            "type": "string",
+            "description": "A specific date to check availability for"
+          },
+          "range": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z,\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+            "description": "A date range to check availability for, in the format 'start_date,end_date'"
+          },
+          "page": {
+            "type": "string",
+            "pattern": "^\\d+$",
+            "description": "The page number for paginated results. Defaults to 1 if not specified."
+          }
+        }
+      },
+      "save_desired_datetime": {
+        "_action_type": "update_state",
+        "_description": "When the user specifies a datetime they want to schedule.",
+        "_examples": [
+          {
+            "user says": "I'd like to schedule for July 20th at 2 PM",
+            "assistant action includes": {
+              "save_desired_datetime": {
+                "desired_datetime": "2023-07-20T14:00:00.000Z"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": [
+          "desired_datetime"
+        ],
+        "_validators": {
+          "desired_datetime": "datetimeiso"
+        }
+      },
+      "confirm_datetime_availability": {
+        "_depends_on": [
+          "state.desired_datetime"
+        ],
+        "_action_type": "update_state",
+        "_description": "When confirming if the desired datetime is available.",
+        "_examples": [
+          {
+            "user says": "Is July 20th at 2 PM available?",
+            "assistant action includes": {
+              "confirm_datetime_availability": {
+                "is_available": true
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": [
+          "is_available"
+        ]
+      },
+      "confirm_user_wants_to_schedule": {
+        "_depends_on": [
+          "state.desired_datetime",
+          "state.is_available"
+        ],
+        "_action_type": "update_state",
+        "_description": "When confirming if the user wants to schedule at the specified datetime.",
+        "_examples": [
+          {
+            "user says": "Yes, let's book that time",
+            "assistant action includes": {
+              "confirm_user_wants_to_schedule": {
+                "user_confirmed": true
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": [
+          "user_confirmed"
+        ]
+      },
+      "save_phone_number": {
+        "_action_type": "update_state",
+        "_description": "When the user provides their phone number.",
+        "_examples": [
+          {
+            "user says": "My phone number is 555-123-4567",
+            "assistant action includes": {
+              "save_phone_number": {
+                "phone_number": "5551234567"
+              }
+            }
+          }
+        ],
+        "type": "object",
+        "required": [
+          "phone_number"
+        ],
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "pattern": "^\\d{10}$"
+          }
+        }
+      }
+    }
+  }

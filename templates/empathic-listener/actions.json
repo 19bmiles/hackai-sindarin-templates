@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "do_not_speak": {
+        "_description": "When you think the user may not have finished their thought, use this action to give them more time to speak.",
+        "_examples": [
+          {
+            "user says": "First off, I just want to say that I'm really upset about what happened at work today.",
+            "assistant action includes": {
+              "do_not_speak": true
+            }
+          },
+          {
+            "user says": "I didn't mean to snap at my mom, but I was just so frustrated.",
+            "assistant action includes": {
+              "do_not_speak": true
+            }
+          },
+          {
+            "user says": "It seems so trivial now, but at the time it felt like such a big deal. Like, come on.",
+            "assistant action includes": {
+              "do_not_speak": true
+            }
+          },
+          {
+            "user says": "Please stop interrupting me.",
+            "assistant action includes": {
+              "do_not_speak": true
+            }
+          }
+        ],
+        "_message_is_optional": true,
+        "_react_after": {
+          "wait": 7500,
+          "thought": "I gave the user additional time to speak. Now, I can either choose to speak or continue to listen."
+        }
+      }
+    }
+  }

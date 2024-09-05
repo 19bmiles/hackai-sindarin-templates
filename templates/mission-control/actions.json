@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "perform_initial_takeoff": {
+        "_action_type": "update_state",
+        "_description": "The AI assistant should call this action to initiate the initial takeoff of the rocket.",
+        "_examples": [
+          {
+            "user says": "<anything, as long as initial takeoff is in the to-do list and has not been completed yet>",
+            "assistant action includes": {
+              "perform_initial_takeoff": {
+                "initial_takeoff_completed": true
+              }
+            }
+          }
+        ],
+        "_react_after": {
+          "wait": 1500,
+          "thought": "Now, describe the successful initial takeoff and choose what to do next according to the CURRENT PRIORITY, including executing the relevant action."
+        }
+      },
+      "perform_stage_1_separation": {
+        "_action_type": "update_state",
+        "_depends_on": [
+          "state.initial_takeoff_completed"
+        ],
+        "_description": "The AI assistant should call this action to perform stage 1 separation of the rocket.",
+        "_examples": [
+          {
+            "user says": "<anything, as long as stage 1 separation is in the to-do list and has not been completed yet>",
+            "assistant says": "Initial launch successful. I will now perform stage 1 separation.",
+            "assistant action includes": {
+              "perform_stage_1_separation": {
+                "stage_1_separation_completed": true
+              }
+            }
+          }
+        ],
+        "_react_after": {
+          "wait": 1500,
+          "thought": "Now, describe the successful stage 1 separation and choose what to do next according to the CURRENT PRIORITY, including execute the relevant action."
+        }
+      },
+      "perform_stage_2_separation": {
+        "_action_type": "update_state",
+        "_depends_on": [
+          "state.initial_takeoff_completed",
+          "state.stage_1_separation_completed"
+        ],
+        "_description": "The AI assistant should call this action to perform stage 2 separation of the rocket.",
+        "_examples": [
+          {
+            "user says": "<anything, as long as stage 2 separation is in the to-do list and has not been completed yet>",
+            "assistant says": "Stage 1 separation successful. I will now perform stage 2 separation.",
+            "assistant action includes": {
+              "perform_stage_2_separation": {
+                "stage_2_separation_completed": true
+              }
+            }
+          }
+        ],
+        "_react_after": {
+          "wait": 1500,
+          "thought": "I should now describe the successful stage 2 separation and request confirmation from the commander that all systems are go to deploy the payload."
+        }
+      },
+      "perform_payload_deployment": {
+        "_action_type": "update_state",
+        "_depends_on": [
+          "state.initial_takeoff_completed",
+          "state.stage_1_separation_completed",
+          "state.stage_2_separation_completed"
+        ],
+        "_description": "The AI assistant should call this action to perform payload deployment, which is the final stage of the rocket launch.",
+        "_examples": [
+          {
+            "user says": "<anything, as long as payload deployment is in the to-do list and has not been completed yet>",
+            "assistant says": "Stage 2 separation successful. I will now deploy the payload.",
+            "assistant action includes": {
+              "perform_payload_deployment": {
+                "payload_deployment_completed": true
+              }
+            }
+          }
+        ],
+        "_react_after": {
+          "wait": 1500,
+          "thought": "I should now describe the successful payload deployment and confirm successful mission completion to the user."
+        }
+      },
+      "reset_launch": {
+        "_action_type": "update_state",
+        "_description": "The AI assistant should call this action to reset all launch stages to false.",
+        "_examples": [
+          {
+            "user says": "Can we simulate another launch?",
+            "assistant action includes": {
+              "reset_launch": {
+                "initial_takeoff_completed": false,
+                "stage_1_separation_completed": false,
+                "stage_2_separation_completed": false,
+                "payload_deployment_completed": false
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
