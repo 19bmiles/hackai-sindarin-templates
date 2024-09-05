@@ -10,10 +10,12 @@ To set up any of the templates in this repository on the Sindarin platform, foll
 2. Click on the persona and in its settings, go to the "General" page:
    - Copy the content from the `initial_message.txt` file and paste it into the "Initial Message" field.
    - Copy the content from the `prompt.txt` file and paste it into the "Prompt" field.
-3. On the "Actions" page:
-   - Copy the content from the `actions.json` file and paste it into the JSON field on the right side of the page.
+3. On the "Actions" page: (Note: Action JSON cannot directly be pasted into the json field)
+   - Copy the content from the `actions.json` file into the functions
+   - Match up the functions with the `actions.json`
+   - These are not necessary, but improve the function.
 
-## Deploying your AI persona
+## (Optional) Deploying your AI persona
 1. Click on the deploy button in the top right corner
 2. Click on the Twilio option and follow the steps 
    - Don't forget to add your number as a "Verified Caller ID", so you can try calling the number in trial mode
